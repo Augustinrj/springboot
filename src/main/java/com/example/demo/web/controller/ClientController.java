@@ -25,7 +25,7 @@ public class ClientController {
     @GetMapping(value = "/client/{id}")
     public Client afficherUnClient(@PathVariable String id){
         Client client = clientDao.findByNumCompte(id);
-        if(client==null) throw new ProductIntrouvableException("le produit " + id +" est introuvable");
+        if(client==null) throw new ProductIntrouvableException("le client " + id +" est introuvable");
         return client;
     }
     @PostMapping(value = "/client")
@@ -39,14 +39,28 @@ public class ClientController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
-    @DeleteMapping(value = "/client/{id}")
-    public void deleteClient(@PathVariable String numCompte){
-        clientDao.deleteByNumCompte(numCompte);
+    @DeleteMapping(value = "/clientremove/{id}")
+    public void deleteClient(@PathVariable String id){
+        long clientdel = clientDao.deleteByNumCompte(id);
     }
-    @PutMapping(value = "/Clients")
+
+    @PutMapping(value = "/clients")
     public Client updateClient(@RequestBody Client client){
         Client clientAdded = clientDao.save(client);
         if (clientAdded==null) return null;
         return clientAdded;
     }
+
+//    @GetMapping(value = "/client/{id}")
+//    public Client afficherUnClient(@PathVariable String id){
+//        Client client = clientDao.findByNumCompte(id);
+//        if(client==null) throw new ProductIntrouvableException("le client " + id +" est introuvable");
+//        return client;
+//    }
+    @GetMapping(value = "/clients/{searchtext}")
+    public Iterable<Client> listeClientsByText(@PathVariable String searchtext){
+        Iterable<Client> clients = clientDao.findByNumCompteLikeOrNomLike("%"+searchtext+"%","%"+searchtext+"%");
+        return clients;
+    }
+
 }

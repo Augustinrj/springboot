@@ -9,4 +9,6 @@ public interface RetraitDao extends JpaRepository<Retrait,String> {
     Retrait findByNumCheque(String id);
 
     void deleteByNumCheque(String numCheque);
+
+    Retrait findTopByOrderByNumChequeDesc();
 }
