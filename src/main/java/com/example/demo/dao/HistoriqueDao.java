@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface HistoriqueDao extends JpaRepository <Historique,Integer> {
+
     @Transactional
     Historique deleteByTypeAndIndice(String type, int indice);
+
+    Iterable<Historique> findAllByNumCompte(String numCompte);
 }
